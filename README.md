@@ -61,7 +61,8 @@ Los pasos ejecutados dentro de la clase Main de Spark son:
 **Stopwords** (palabras no relevantes). En spark ML disponemos de transformadores de texto como son _Tokenizer_ y _StopWordsRemover_ que podríamos haber utilizado para extraer las palabras y limpiar aquellas que se consideran con menos valor. Como en la práctica se nos enunciaba la eliminación concreta de árticulos, determinantes y conjunciones hemos optado por filtrar solamente estas palabras en concreto.  
 Alguna de las conjunciones españolas están compuestas de varias palabras, pero para la realización de la práctica se han descompuesto, algunas de ellas, como palabras individuales a filtrar.
 
-Una de las principales dudas que me ha surgido con esta práctica es cómo con la API structured streaming de Spark podemos obtener un **Top k** de un agregado de datos, ya que a la hora de hacer agregaciones en streaming ya se nos advierte que no podremos hacer ordenaciones ni limits.  
+Una de las principales dudas que me ha surgido con esta práctica es cómo con la API structured streaming de Spark podemos obtener un **Top k** de un agregado de datos, ya que a la hora de hacer agregaciones en streaming ya se nos advierte que no podremos hacer ordenaciones ni limits.
+
 Por otro lado, podemos, con esta API, desarrollar procesos para que leer datos de diversas fuentes, hacer transformaciones y escribirlas en distintos soportes (fichero, consola, memoria,…), pero no veo claro donde podemos programar la lógica para realizar una acción en función de unos resultados obtenidos. En nuestro caso, teníamos que enviar una notificación de alerta en funcion de unas palabras detectadas.
 
 Al parecer con los **Foreach Sink** podemos ejecutar acciones a partir del stream procesado, pero con este tipo de Sink solamente puedes evaluar row a row, así que nos podria servir para enviar una notificación evaluando row a row, pero no para calcular un _Top_ o _Rank_.
