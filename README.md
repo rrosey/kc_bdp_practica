@@ -63,7 +63,9 @@ Alguna de las conjunciones españolas están compuestas de varias palabras, pero
 
 Una de las principales dudas que me ha surgido con esta práctica es cómo con la API structured streaming de Spark podemos obtener un **Top k** de un agregado de datos, ya que a la hora de hacer agregaciones en streaming ya se nos advierte que no podremos hacer ordenaciones ni limits.  
 Por otro lado, podemos, con esta API, desarrollar procesos para que leer datos de diversas fuentes, hacer transformaciones y escribirlas en distintos soportes (fichero, consola, memoria,…), pero no veo claro donde podemos programar la lógica para realizar una acción en función de unos resultados obtenidos. En nuestro caso, teníamos que enviar una notificación de alerta en funcion de unas palabras detectadas.
-Al parecer con los **Foreach Sink** podemos ejecutar acciones a partir del stream procesado, pero con este tipo de Sink solamente puedes evaluar row a row, así que nos podria servir para enviar una notificación evaluando row a row, pero no para calcular un _Top_ o _Rank_.  
+
+Al parecer con los **Foreach Sink** podemos ejecutar acciones a partir del stream procesado, pero con este tipo de Sink solamente puedes evaluar row a row, así que nos podria servir para enviar una notificación evaluando row a row, pero no para calcular un _Top_ o _Rank_.
+
 Para ejecutar alguna acción también he valorado el uso de _Listeners asíncronos_. Mi idea era la de escuchar la ejecución del procesado de un micro-batch del streamWriter a memoria (haciendo uso de la API asincrona) y sobre ese evento ahcer una query y el envio de notificaciones (en el código se puede visualizar esta prueba).
 El problema de esta solución es que la salida a memoria es una salida para debug, no la recomiendan para producción y además la query que ejecutas sobre la tabla en memoria siempre te devuelve todos los resultados por lo que tendríamos nosotros que filtrar por la hora que nos interesa interrrogar.
 
